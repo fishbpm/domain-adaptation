@@ -29,7 +29,7 @@ class SNES():
         self.dim = len(x0)
         self.learningRate =  0.2 * (3 + log(self.dim)) / sqrt(self.dim)
         #print self.learningRate
-        #self.learningRate = self.learningRate*learning_rate_mult
+        self.learningRate = self.learningRate*learning_rate_mult
         #self.learningRate = 0.000001
         self.numEvals = 0
         self.bestFound = None
@@ -72,16 +72,16 @@ if __name__ == "__main__":
 
     #output_file = open('snes_output.txt', 'w')
     # 100-dimensional ellipsoid function
-    dim = 2000
+    dim = 20
     A = np.array([np.power(1000, 2 * i / (dim - 1.)) for i in range(dim)])
     def elli(x):
         return -dot(A * x, x)
 
-    snes = SNES(ones(dim), 1, 400)
-    for i in range(0, 5000):#00):
+    snes = SNES(ones(dim), 2, 400)
+    for i in range(0, 10):#00):
         asked = snes.ask()
         #if i > 25 and i < 35:
-        print('asked',asked[0][:2], file=output_file)
+        #print('asked',asked[0][:2], file=output_file)
         told = [elli(a) for a in asked ]
         #print(told)
         snes.tell(asked,told)

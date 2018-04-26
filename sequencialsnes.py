@@ -1,6 +1,7 @@
 __author__ = 'Spyridon Samothrakis ssamot@essex.ac.uk'
 
 from snes import SNES
+from numpy import dot, ones
 import numpy as np
 from random import randint
 
@@ -32,3 +33,25 @@ class SSNES():
 
         self.snes.tell(self.asked,told)
         self.gen()
+
+if __name__ == "__main__":
+
+    #output_file = open('snes_output.txt', 'w')
+    # 100-dimensional ellipsoid function
+    dim = 20
+    A = np.array([np.power(1000, 2 * i / (dim - 1.)) for i in range(dim)])
+    def elli(x):
+        return -dot(A * x, x)
+
+    snes = SSNES(ones(dim), 2, 400)
+    for i in range(0, 10):#00):
+        asked = snes.asked
+        #if i > 25 and i < 35:
+        #print('asked',asked[0][:2], file=output_file)
+        told = [elli(a) for a in asked ]
+        #print(told)
+        snes.fit(told, range(400))
+
+
+    # # example run
+    # print SNES(elli, ones(dim), verbose=True)
